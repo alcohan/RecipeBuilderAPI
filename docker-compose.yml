@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    env_file:
+      - .env
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+      - SERVER 192.168.7.122:1433
+      - DATABASE TestDB

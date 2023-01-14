@@ -1,0 +1,14 @@
+# .env file
+.env
+
+# VS Code settings
+.vscode/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Flask-specific
+instance/
+.flaskenv

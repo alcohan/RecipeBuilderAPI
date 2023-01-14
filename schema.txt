@@ -1,0 +1,21 @@
+Ingredients (table):
+    - IngredientID (Primary Key, Auto Increment)
+    - Name (String)
+    - Unit (String)
+    - Calories (Integer)
+    - Fat (Integer)
+    - Protein (Integer)
+    - Carbohydrates (Integer)
+    - Price (Decimal)
+
+Recipes (table):
+    - RecipeID (Primary Key, Auto Increment)
+    - Name (String)
+    - Servings (Integer)
+    - PreparationTime (Integer)
+
+RecipeIngredients (table):
+    - RecipeIngredientID (Primary Key, Auto Increment)
+    - RecipeID (Foreign Key references Recipe(RecipeID))
+    - IngredientID (Foreign Key references Ingredients(IngredientID))
+    - Quantity (Decimal)

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ingredients List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1 id="title">{{value.Name}}</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Servings</th>
+            <th>Preptime</th>
+            <th># of Ingredients</th>
+            <th>Nutrition</th>
+        </tr>
+    </thead>
+    <tbody id="recipe-info-table">
+        <tr>
+            <td>{{value.Servings}}</td>
+            <td>{{value.PreparationTime}}</td>
+            <td>{{value.IngredientQty}}</td>
+            <td>{{value.TotalCalories}} cal</td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<form id="ingredientsform">
+    <table>
+        <thead>
+            <tr>
+                <th>Ingredient</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody id="ingredients-table">
+        </tbody>
+    </table>
+    <input type="button" value="Update" onclick="submitForm()"> 
+</form>
+
+<br>
+<a href="/test">Back to all recipes</a>
+
+<script>
+
+    function submitForm() {
+        var updatesArray = [];
+        $(".ingredient").each(function() {
+            var formData = {
+                id:this.id,
+                qty:$(this).val()
+            };
+            updatesArray.push(formData);
+        });
+
+        console.log(updatesArray);
+
+        $.ajax({
+            type: "POST",
+            url: "/updaterecipeingredient",
+            contentType: "application/json",
+            data: JSON.stringify(updatesArray),
+            success: function(data) {
+                console.log(data);
+            }
+        });
+    }
+    // Fetch data from the server
+    fetch('/recipes/{{value.RecipeID}}/ingredients')
+    .then(response => response.json())
+    .then(data => {
+        for (i=0;i<data.length;i++) {
+            ingredient = data[i]
+            const row = `
+                <tr>
+                    <td>${ingredient.Name}</td>
+                    <td><input type="text" class="ingredient" id="${ingredient.RecipeIngredientID}" name="qty" value="${ingredient.Quantity}" required></td>
+                </tr>
+            `;
+            document.querySelector('#ingredients-table').innerHTML += row;
+        }
+    })
+</script>
+</body>
+</html>

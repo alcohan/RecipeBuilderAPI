@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Update Form</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    </head>
+    <body>
+        <form id="updateForm">
+            <label for="id">ID:</label>
+            <input type="text" id="id" name="id" value="{{value.IngredientID}}" required>
+            <br>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{value.Name}}" required>
+            <br>
+            <label for="unit">Unit:</label>
+            <input type="text" id="unit" name="unit" value="{{value.Unit}}" required>
+            <br>
+            <label for="calories">Calories:</label>
+            <input type="text" id="calories" name="calories" value="{{value.Calories}}" required>
+            <br>
+            <label for="fat">Fat:</label>
+            <input type="text" id="fat" name="fat" value="{{value.Fat}}" required>
+            <br>
+            <label for="protein">Protein:</label>
+            <input type="text" id="protein" name="protein" value="{{value.Protein}}" required>
+            <br>
+            <label for="carbs">Carbohydrates:</label>
+            <input type="text" id="carbs" name="carbs" value="{{value.Carbohydrates}}" required>
+            <br>
+            <label for="price">Price:</label>
+            <input type="text" id="price" name="price" value="{{value.CurrentPrice}}" required>
+            <br><br>
+            <input type="button" value="Update" onclick="submitForm()">
+        </form>
+    </body>
+    <br>
+    <a href="/test">Back</a>
+    <script>
+        function submitForm() {
+            
+            var formData = {};
+            $("form input").each(function() {
+                formData[this.id] = $(this).val();
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/updateingredient",
+                contentType: "application/json",
+                data: JSON.stringify(formData),
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        }
+    </script>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ingredients List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>All Recipes</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Recipe</th>
+            <th>Servings</th>
+            <th>Prep</th>
+            <th>Count</th>
+            <th>Calories</th>
+        </tr>
+    </thead>
+    <tbody id="recipes-table">
+    </tbody>
+</table>
+<br>
+<table>
+    <thead>
+        <tr>
+            <th>Ingredient</th>
+            <th>Unit</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody id="ingredients-table">
+    </tbody>
+</table>
+<script>
+    // Fetch data from the server
+    fetch('/recipes')
+    .then(response => response.json())
+    .then(data => {
+        // Iterate over the data and append rows to the table
+        for (let i = 0; i < data.length; i++) {
+            const recipe = data[i];
+            const row = `
+                <tr>
+                    <td><a href="/test/recipes/${recipe.RecipeID}">${recipe.Name}</a></td>
+                    <td>${recipe.Servings}</td>
+                    <td>${recipe.PreparationTime}</td>
+                    <td>${recipe.IngredientQty}</td>
+                    <td>${recipe.TotalCalories}</td>
+                </tr>
+            `;
+            document.querySelector('#recipes-table').innerHTML += row;
+        }
+    });
+
+    // Fetch data from the server
+    fetch('/ingredients')
+    .then(response => response.json())
+    .then(data => {
+        // Iterate over the data and append rows to the table
+        for (let i = 0; i < data.length; i++) {
+            const ingredient = data[i];
+            const row = `
+                <tr>
+                    <td><a href="/test/ingredients/${ingredient.IngredientID}">${ingredient.Name}</a></td>
+                    <td>${ingredient.Unit}</td>
+                    <td>${ingredient.Price}</td>
+                </tr>
+            `;
+            document.querySelector('#ingredients-table').innerHTML += row;
+        }
+    })
+</script>
+</body>
+</html>
