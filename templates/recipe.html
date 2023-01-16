@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1 id="title">{{value.Name}}</h1>
-
+<h2>Recipe Info</h2>
 <table>
     <thead>
         <tr>
@@ -26,6 +26,7 @@
     </tbody>
 </table>
 <br>
+<h2>Recipe Ingredients</h2>
 <form id="ingredientsform">
     <table>
         <thead>
@@ -40,6 +41,18 @@
     <input type="button" value="Update" onclick="submitForm()"> 
 </form>
 
+<br>
+<h2>All Ingredients:</h2>
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Ingredient</th>
+        </tr>
+    </thead>
+    <tbody id="available-ingredients">
+    </tbody>
+</table>
 <br>
 <a href="/test">Back to all recipes</a>
 
@@ -58,12 +71,30 @@
         console.log(updatesArray);
 
         $.ajax({
-            type: "POST",
-            url: "/updaterecipeingredient",
+            type: "PUT",
+            url: "/recipes/any/ingredients/batch",
             contentType: "application/json",
             data: JSON.stringify(updatesArray),
             success: function(data) {
                 console.log(data);
+            }
+        });
+    }
+
+    function addIngredientToRecipe(recipeID, ingredientID) {
+        console.log("Adding to recipeID " + recipeID +  " | ingredientID: " + ingredientID)
+        var createRecipeIngredientData = {
+            ingredientid: ingredientID,
+            qty: 1
+        }
+        $.ajax({
+            type: "POST",
+            url: "/recipes/" + recipeID + "/ingredients",
+            contentType: "application/json",
+            data: JSON.stringify(createRecipeIngredientData),
+            success: function(data) {
+                console.log(data);
+                location.reload();
             }
         });
     }
@@ -81,7 +112,25 @@
             `;
             document.querySelector('#ingredients-table').innerHTML += row;
         }
-    })
+    });
+
+    // Fetch all possible ingredients. Render a button to add an entry to RecipeIngredients
+    // table for the according ingredient
+    fetch('/ingredients')
+    .then(response => response.json())
+    .then(data => {
+        for (i=0;i<data.length;i++) {
+            ingredient = data[i]
+            const row = `
+                <tr>
+                    <td><button onclick="addIngredientToRecipe('{{value.RecipeID}}','${ingredient.IngredientID}')">+</button></td>
+                    <td>${ingredient.Name}</td>
+                </tr>
+            `;
+            document.querySelector('#available-ingredients').innerHTML += row;
+        }
+
+    });
 </script>
 </body>
 </html>

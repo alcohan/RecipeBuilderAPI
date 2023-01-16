@@ -6,8 +6,7 @@
     </head>
     <body>
         <form id="updateForm">
-            <label for="id">ID:</label>
-            <input type="text" id="id" name="id" value="{{value.IngredientID}}" required>
+            <label>ID: {{value.IngredientID}}</label>
             <br>
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" value="{{value.Name}}" required>
@@ -44,8 +43,8 @@
             });
 
             $.ajax({
-                type: "POST",
-                url: "/updateingredient",
+                type: "PUT",
+                url: "/ingredients/{{value.IngredientID}}",
                 contentType: "application/json",
                 data: JSON.stringify(formData),
                 success: function(data) {
