@@ -33,6 +33,7 @@
             <tr>
                 <th>Ingredient</th>
                 <th>Quantity</th>
+                <th></th>
             </tr>
         </thead>
         <tbody id="ingredients-table">
@@ -98,6 +99,17 @@
             }
         });
     }
+    function deleteThisIngredient(recipeIngredientId) {
+        console.log("Deleting RecipeIngredient with ID=" + recipeIngredientId);
+        $.ajax({
+            type: "DELETE",
+            url: "/recipes/temp/ingredients/temp/" + recipeIngredientId,
+            success: function(data) {
+                console.log(data);
+                location.reload();
+            }
+        })
+    }
     // Fetch data from the server
     fetch('/recipes/{{value.RecipeID}}/ingredients')
     .then(response => response.json())
@@ -108,6 +120,7 @@
                 <tr>
                     <td>${ingredient.Name}</td>
                     <td><input type="text" class="ingredient" id="${ingredient.RecipeIngredientID}" name="qty" value="${ingredient.Quantity}" required></td>
+                    <td><button onclick="deleteThisIngredient(${ingredient.RecipeIngredientID})">x</button></td>
                 </tr>
             `;
             document.querySelector('#ingredients-table').innerHTML += row;

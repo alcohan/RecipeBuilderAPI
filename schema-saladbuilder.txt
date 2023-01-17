@@ -1,0 +1,44 @@
+Ingredients (table):
+    - IngredientID (Primary Key, Auto Increment)
+    - CategoryID (Foreign Key references Category(CategoryID))
+    - Name (String)
+
+    - Unit (String)
+    - Case Price (Decimal)
+    - Case Size (Integer)
+    - Yield Percent (Integer)
+    - Portion Size (Decimal)
+    - Portion Cost AS (Case Price) * (Portion Size / Case Size) * (Yield Percent / 100) 
+
+    - Portion Weight (Decimal)
+    - Portion Volume floz (Decimal)
+    - Calories (Decimal(4,2))
+    - TTL Fat Grams (Decimal(4,2))
+    - Sat Fat Grams (Decimal(4,2))
+    - Cholesterol Miligrams (Decimal(4,2))
+    - Carbohydrates Miligrams (Decimal(4,2))
+    - Fiber Grams (Decimal(4,2))
+    - Sugar Grams (Decimal(4,2))
+    - Protein Grams (Decimal(4,2))
+
+PriceHistory (Table):
+    - PriceHistoryID (Primary Key, Auto Increment)
+    - IngredientID (Foreign Key references Ingredients(IngredientID))
+    - Portion Price (Decimal)
+
+Categories (table):
+    - CategoryID (Primary Key, Auto Increment)
+    - Name (String)
+
+Recipes (table):
+    - RecipeID (Primary Key, Auto Increment)
+    - Name (String)
+    - ImageURL (String)
+    - Tags (String)
+    - Description (Long String)
+
+RecipeIngredients (table):
+    - RecipeIngredientID (Primary Key, Auto Increment)
+    - RecipeID (Foreign Key references Recipe(RecipeID))
+    - IngredientID (Foreign Key references Ingredients(IngredientID))
+    - Quantity (Decimal)

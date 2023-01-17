@@ -40,6 +40,15 @@ def get_recipe_quantities(recipe_id):
         conn.execute(template,data)
         return jsonify({"message": "Data updated successfully!"}), 200
 
+@routes.route('/recipes/<recipe_id>/ingredients/<ingredient_id>/<recipe_ingredient_id>', methods=['DELETE'])
+def delete_recipe_ingredient(recipe_id, ingredient_id, recipe_ingredient_id):
+    conn = engine.connect()
+    with open (f'sql/delete_recipe_ingredient.sql','r') as file:
+        template = text(file.read())
+    conn.execute(template, {'id':recipe_ingredient_id})
+
+    return jsonify({"message":"Successfully Deleted."}), 200
+
 @routes.route('/ingredients/<ingredient_id>', methods=['PUT'])
 def update_ingredient(ingredient_id):
     data = request.get_json()
