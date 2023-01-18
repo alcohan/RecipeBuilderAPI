@@ -43,8 +43,8 @@
                 <tr>
                     <td><a href="/test/recipes/${recipe.RecipeID}">${recipe.Name}</a></td>
                     <td>${recipe.IngredientQty}</td>
-                    <td>$ ${recipe.TotalPrice.toFixed(2)}</td>
-                    <td>${recipe.TotalCalories.toFixed(0)} cal</td>
+                    <td>$ ${recipe.Price.toFixed(2)}</td>
+                    <td>${recipe.Calories.toFixed(0)} cal</td>
                 </tr>
             `;
             document.querySelector('#recipes-table').innerHTML += row;

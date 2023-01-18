@@ -23,7 +23,7 @@ def get_recipe_ingredients():
 
 @routes.route('/recipes/<recipe_id>', methods=['GET'])
 def get_recipe_info(recipe_id):
-    return to_json(execute_query_with_params('select_recipe_nutrition', (recipe_id) ))
+    return to_json(execute_query_with_params('select_one_recipe', (recipe_id) ))
 
 @routes.route('/recipes/<recipe_id>/ingredients', methods=['GET', 'POST'])
 def get_recipe_quantities(recipe_id):

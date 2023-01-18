@@ -7,65 +7,65 @@
     <body>
         <form id="updateForm">
             <h2>Ingredient Details</h2>
-            <label>ID: {{value.IngredientID}}</label>
+            <label>ID: {{params.IngredientID}}</label>
             <br>
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" value="{{value.Name}}" required>
+            <input type="text" id="name" name="name" value="{{params.Name}}" required>
             <br>
             <label for="catid">Category ID:</label>
-            <input type="text" id="catid" name="catid" value="{{value.CategoryID}}" required>
+            <input type="text" id="catid" name="catid" value="{{params.CategoryID}}" required>
             <br>
             <label for="unit">Measurement Unit:</label>
-            <input type="text" id="unit" name="unit" value="{{value.Unit}}" required>
+            <input type="text" id="unit" name="unit" value="{{params.Unit}}" required>
             <br>
             <label for="portionvol">Portion Volume:</label>
-            <input type="text" id="portionvol" name="portionvol" value="{{value.PortionVolume}}" required>
+            <input type="text" id="portionvol" name="portionvol" value="{{params.PortionVolume}}" required>
             <br>
             <label for="utensil">Portioning Utensil:</label>
-            <input type="text" id="utensil" name="utensil" value="{{value.PortionUtensil}}" required>
+            <input type="text" id="utensil" name="utensil" value="{{params.PortionUtensil}}" required>
             <br>
             <h2>Costing</h2>
             <label for="caseprice">Case Price:</label>
-            <input type="text" id="caseprice" name="caseprice" value="{{value.CasePrice}}" required>
+            <input type="text" id="caseprice" name="caseprice" value="{{params.CasePrice}}" required>
             <br>
-            <label for="casesize">Case Total ({{value.Unit}}):</label>
-            <input type="text" id="casesize" name="casesize" value="{{value.CaseSize}}" required>
+            <label for="casesize">Case Total ({{params.Unit}}):</label>
+            <input type="text" id="casesize" name="casesize" value="{{params.CaseSize}}" required>
             <br>
-            <label for="portionsize">Portion Size ({{value.Unit}}):</label>
-            <input type="text" id="portionsize" name="portionsize" value="{{value.PortionSize}}" required>
+            <label for="portionsize">Portion Size ({{params.Unit}}):</label>
+            <input type="text" id="portionsize" name="portionsize" value="{{params.PortionSize}}" required>
             <br>
             <label for="yield">Yield Percent:</label>
-            <input type="text" id="yield" name="yield" value="{{value.YieldPercent}}" required>
+            <input type="text" id="yield" name="yield" value="{{params.YieldPercent}}" required>
             <br>
-            <label>Calculated Portion Cost: {{portioncost}} cents</label>
+            <label>Calculated Portion Cost: {{params.PortionCost}} cents</label>
             <br>
             <h2>Nutrition</h2>
             <label for="calories">Calories (cal):</label>
-            <input type="text" id="calories" name="calories" value="{{value.Calories}}" required>
+            <input type="text" id="calories" name="calories" value="{{params.Calories}}" required>
             <br>
             <label for="ttlfat">TTL Fat (g):</label>
-            <input type="text" id="ttlfat" name="ttlfat" value="{{value.TTLFatGrams}}" required>
+            <input type="text" id="ttlfat" name="ttlfat" value="{{params.TTLFatGrams}}" required>
             <br>
             <label for="satfat">Sat Fat (g):</label>
-            <input type="text" id="satfat" name="satfat" value="{{value.SatFatGrams}}" required>
+            <input type="text" id="satfat" name="satfat" value="{{params.SatFatGrams}}" required>
             <br>
             <label for="choles">Carbohydrates (g):</label>
-            <input type="text" id="choles" name="choles" value="{{value.CholesterolMiligrams}}" required>
+            <input type="text" id="choles" name="choles" value="{{params.CholesterolMiligrams}}" required>
             <br>
             <label for="sodium">Sodium (mg):</label>
-            <input type="text" id="sodium" name="sodium" value="{{value.SodiumMiligrams}}" required>
+            <input type="text" id="sodium" name="sodium" value="{{params.SodiumMiligrams}}" required>
             <br>
             <label for="carbs">Carbohydrates (g):</label>
-            <input type="text" id="carbs" name="carbs" value="{{value.CarbohydratesGrams}}" required>
+            <input type="text" id="carbs" name="carbs" value="{{params.CarbohydratesGrams}}" required>
             <br>
             <label for="fiber">Fiber (g):</label>
-            <input type="text" id="fiber" name="fiber" value="{{value.FiberGrams}}" required>
+            <input type="text" id="fiber" name="fiber" value="{{params.FiberGrams}}" required>
             <br>
             <label for="sugar">Sugar (g):</label>
-            <input type="text" id="sugar" name="sugar" value="{{value.SugarGrams}}" required>
+            <input type="text" id="sugar" name="sugar" value="{{params.SugarGrams}}" required>
             <br>
             <label for="protein">Protein (g):</label>
-            <input type="text" id="protein" name="protein" value="{{value.ProteinGrams}}" required>
+            <input type="text" id="protein" name="protein" value="{{params.ProteinGrams}}" required>
             
             <br><br>
             <input type="button" value="Update" onclick="submitForm()">
@@ -84,7 +84,7 @@
 
             $.ajax({
                 type: "PUT",
-                url: "/ingredients/{{value.IngredientID}}",
+                url: "/ingredients/{{params.IngredientID}}",
                 contentType: "application/json",
                 data: JSON.stringify(formData),
                 success: function(data) {

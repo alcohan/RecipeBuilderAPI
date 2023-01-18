@@ -5,19 +5,37 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<h1 id="title">{{value.Name}}</h1>
+<h1 id="title">{{params.Name}}</h1>
 <h2>Recipe Info</h2>
 <table>
     <thead>
         <tr>
-            <th># of Ingredients</th>
-            <th>Nutrition</th>
+            <th>Ingredients</th>
+            <th>Cost</th>
+            <th>Calories</th>
+            <th>TTL Fat</th>
+            <th>Sat Fat</th>
+            <th>Choles</th>
+            <th>Sodium</th>
+            <th>Carb</th>
+            <th>Fiber</th>
+            <th>Sugar</th>
+            <th>Protein</th>
         </tr>
     </thead>
     <tbody id="recipe-info-table">
         <tr>
-            <td>{{value.IngredientQty}}</td>
-            <td>{{value.TotalCalories}} cal</td>
+            <td>{{params.IngredientQty}}</td>
+            <td>$ {{params.Price}}</td>
+            <td>{{params.Calories}} cal</td>
+            <td>{{params.TTLFat}} g</td>
+            <td>{{params.SatFat}} g</td>
+            <td>{{params.Cholesterol}} mg</td>
+            <td>{{params.Sodium}} mg</td>
+            <td>{{params.Carbohydrates}} g</td>
+            <td>{{params.Fiber}} g</td>
+            <td>{{params.Sugar}} g</td>
+            <td>{{params.Protein}} g</td>
         </tr>
     </tbody>
 </table>
@@ -107,7 +125,7 @@
         })
     }
     // Fetch data from the server
-    fetch('/recipes/{{value.RecipeID}}/ingredients')
+    fetch('/recipes/{{params.RecipeID}}/ingredients')
     .then(response => response.json())
     .then(data => {
         for (i=0;i<data.length;i++) {
@@ -115,7 +133,7 @@
             const row = `
                 <tr>
                     <td>${ingredient.Name}</td>
-                    <td><input type="text" class="ingredient" id="${ingredient.RecipeIngredientID}" name="qty" value="${ingredient.Quantity}" required></td>
+                    <td><input type="text" class="ingredient" id="${ingredient.RecipeIngredientID}" name="qty" params="${ingredient.Quantity}" required></td>
                     <td><button onclick="deleteThisIngredient(${ingredient.RecipeIngredientID})">x</button></td>
                 </tr>
             `;
@@ -132,7 +150,7 @@
             ingredient = data[i]
             const row = `
                 <tr>
-                    <td><button onclick="addIngredientToRecipe('{{value.RecipeID}}','${ingredient.IngredientID}')">+</button></td>
+                    <td><button onclick="addIngredientToRecipe('{{params.RecipeID}}','${ingredient.IngredientID}')">+</button></td>
                     <td>${ingredient.Name}</td>
                 </tr>
             `;

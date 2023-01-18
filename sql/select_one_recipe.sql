@@ -1,4 +1,4 @@
-SELECT
+SELECT 
     Recipes.Name,
     Recipes.RecipeID,
     COALESCE(SUM(Ingredients.PortionCost * RecipeIngredients.Quantity),0) as Price,
@@ -12,12 +12,12 @@ SELECT
     COALESCE(SUM(Ingredients.SugarGrams * RecipeIngredients.Quantity),0) as Sugar,
     COALESCE(SUM(Ingredients.ProteinGrams * RecipeIngredients.Quantity),0) as Protein,
     COALESCE(COUNT(RecipeIngredients.RecipeIngredientID),0) as IngredientQty
-FROM
+FROM 
     Recipes
     LEFT JOIN RecipeIngredients ON Recipes.RecipeID = RecipeIngredients.RecipeID
     LEFT JOIN Ingredients ON RecipeIngredients.IngredientID = Ingredients.IngredientID
-WHERE
-    IsTemplate = 0
+WHERE 
+    Recipes.RecipeID = :placeholder
 GROUP BY
     Recipes.Name,
     Recipes.RecipeID
