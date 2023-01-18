@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Salad Builder</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<a href="/test">Back to all recipes</a><br>
+<h1>Recipe Templates</h1>
+
+<br>
+<table>
+    <thead>
+        <tr>
+            <th>Recipe</th>
+            <th>Ingredients</th>
+            <th>Cost</th>
+            <th>Calories</th>
+        </tr>
+    </thead>
+    <tbody id="templates-table">
+    </tbody>
+</table>
+<br>
+
+<script>
+    // Fetch data from the server
+    fetch('/recipes/templates')
+    .then(response => response.json())
+    .then(data => {
+        // Iterate over the data and append rows to the table
+        for (let i = 0; i < data.length; i++) {
+            const template = data[i];
+            const row = `
+                <tr>
+                    <td><a href="/test/templates/${template.RecipeID}">${template.Name}</a></td>
+                    <td>${template.IngredientQty}</td>
+                    <td>$ ${template.Price.toFixed(2)}</td>
+                    <td>${template.Calories.toFixed(0)} cal</td>
+                </tr>
+            `;
+            document.querySelector('#templates-table').innerHTML += row;
+        }
+    });
+</script>
+</body>
+</html>

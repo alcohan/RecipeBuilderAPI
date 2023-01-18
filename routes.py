@@ -1,7 +1,7 @@
 from db import engine
 from flask import Blueprint, request, jsonify
 from sqlalchemy import text
-from dbutils import to_json, get_table, execute_query, execute_query_with_params
+from dbutils import to_json, get_table, execute_query, execute_query_with_placeholder
 
 routes = Blueprint('routes', __name__)
 
@@ -14,8 +14,34 @@ def get_price_history():
     return to_json(get_table("PriceHistory"))
 
 @routes.route('/recipes',methods=['GET'])
+def get_templates():
+    return to_json(execute_query_with_placeholder("select_all_recipes", (0)))
+
+@routes.route('/recipes/templates',methods=['GET'])
 def get_recipes():
-    return to_json(execute_query("select_all_recipes"))
+    return to_json(execute_query_with_placeholder("select_all_recipes", (1)))
+
+@routes.route('/recipes/templates/<template_id>/categorymods', methods=['GET'])
+def get_categorymods(template_id):
+    return to_json(execute_query_with_placeholder("select_category_weights",(template_id)))
+
+@routes.route('/recipes/templates/<template_id>/categorymods', methods=['PUT'])
+def update_categorymods(template_id):
+    data = request.get_json()
+    conn = engine.connect()
+    with open (f'sql/delete_category_weights.sql','r') as file:
+        deletetemplate = text(file.read())
+    with open (f'sql/upsert_category_weights.sql','r') as file:
+        upserttemplate = text(file.read())
+    with conn.begin():
+        for cat in data:
+            cat['categoryid'] = cat['id']
+            cat['recipeid'] = template_id
+            if cat['multiplier'] == 1:
+                conn.execute(deletetemplate, cat)
+            else:
+                conn.execute(upserttemplate,cat)
+    return jsonify({"message": "Data updated successfully!"}),200
 
 @routes.route('/recipeingredients',methods=['GET'])
 def get_recipe_ingredients():
@@ -23,12 +49,12 @@ def get_recipe_ingredients():
 
 @routes.route('/recipes/<recipe_id>', methods=['GET'])
 def get_recipe_info(recipe_id):
-    return to_json(execute_query_with_params('select_one_recipe', (recipe_id) ))
+    return to_json(execute_query_with_placeholder('select_one_recipe', (recipe_id) ))
 
 @routes.route('/recipes/<recipe_id>/ingredients', methods=['GET', 'POST'])
 def get_recipe_quantities(recipe_id):
     if request.method =='GET':
-        return to_json(execute_query_with_params('select_recipe_quantities', (recipe_id) ))
+        return to_json(execute_query_with_placeholder('select_recipe_quantities', (recipe_id) ))
     if request.method == "POST":
         # Create a new RecipeIngredient for this recipe_id
         data = request.get_json()

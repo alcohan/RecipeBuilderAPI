@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Salad Builder</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>All Recipes</h1>
+
+<a href="/test/ingredients">Edit Ingredients</a><br>
+<a href="/test/templates">Edit Templates</a><br>
+<br>
+<table>
+    <thead>
+        <tr>
+            <th>Recipe</th>
+            <th>Ingredients</th>
+            <th>Cost</th>
+            <th>Calories</th>
+        </tr>
+    </thead>
+    <tbody id="recipes-table">
+    </tbody>
+</table>
+<br>
+
+<script>
+    // Fetch data from the server
+    fetch('/recipes')
+    .then(response => response.json())
+    .then(data => {
+        // Iterate over the data and append rows to the table
+        for (let i = 0; i < data.length; i++) {
+            const recipe = data[i];
+            const row = `
+                <tr>
+                    <td><a href="/test/recipes/${recipe.RecipeID}">${recipe.Name}</a></td>
+                    <td>${recipe.IngredientQty}</td>
+                    <td>$ ${recipe.Price.toFixed(2)}</td>
+                    <td>${recipe.Calories.toFixed(0)} cal</td>
+                </tr>
+            `;
+            document.querySelector('#recipes-table').innerHTML += row;
+        }
+    });
+</script>
+</body>
+</html>

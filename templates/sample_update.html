@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Update Form</title>
+        <title>Salad Builder</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
     <body>
+        <a href="/test/ingredients">Back to Ingredients</a>
+
         <form id="updateForm">
             <h2>Ingredient Details</h2>
             <label>ID: {{params.IngredientID}}</label>
@@ -73,7 +75,6 @@
         </form>
     </body>
     <br>
-    <a href="/test">Back</a>
     <script>
         function submitForm() {
             

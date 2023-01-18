@@ -16,7 +16,7 @@ def to_json(object):
     return jsonify([dict(zip([column for column in description], row))
         for row in rows])
 
-def execute_query_with_params(sql_file_name, params):
+def execute_query_with_placeholder(sql_file_name, params):
     #connect to database and retrieve ingredients for the recipe_id
     with open(f'sql/{sql_file_name}.sql', 'r') as file:
         sql = file.read()

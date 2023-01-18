@@ -5,9 +5,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<a href="/test">Back to all recipes</a>
+<a href="/test/templates">Back to Templates</a>
 <h1 id="title">{{params.Name}}</h1>
-<h2>Recipe Info</h2>
+<h2>Template Info</h2>
 <table>
     <thead>
         <tr>
@@ -41,6 +41,21 @@
     </tbody>
 </table>
 <br>
+<h2>Calculate Categories</h2>
+<form id="categoriesform">
+    <table>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Multiplier</th>
+            </tr>
+        </thead>
+        <tbody id="categories-table">
+        </tbody>
+    </table>
+    <input type="button" value="Update" onclick="submitCategories()"> 
+</form>
+
 <h2>Recipe Ingredients</h2>
 <form id="ingredientsform">
     <table>
@@ -93,7 +108,29 @@
                 console.log(data);
             }
         });
-    }
+    };
+    function submitCategories() {
+        var updatesArray = [];
+        $(".category").each(function() {
+            var formData = {
+                id:this.id,
+                multiplier:$(this).val()
+            };
+            updatesArray.push(formData);
+        });
+
+        console.log("Update template with RecipeID " + "{{params.RecipeID}}",updatesArray);
+
+        $.ajax({
+            type: "PUT",
+            url: "/recipes/templates/{{params.RecipeID}}/categorymods",
+            contentType: "application/json",
+            data: JSON.stringify(updatesArray),
+            success: function(data) {
+                console.log(data);
+            }
+        });
+    };
 
     function addIngredientToRecipe(recipeID, ingredientID) {
         console.log("Adding to recipeID " + recipeID +  " | ingredientID: " + ingredientID)
@@ -137,6 +174,21 @@
                 </tr>
             `;
             document.querySelector('#ingredients-table').innerHTML += row;
+        }
+    });
+
+    fetch('/recipes/templates/{{params.RecipeID}}/categorymods')
+    .then(response => response.json())
+    .then(data => {
+        for (i=0;i<data.length;i++) {
+            category = data[i]
+            const row = `
+                <tr>
+                    <td>${category.Name}</td>
+                    <td><input type="text" class="category" id="${category.CategoryID}" name="multiplier" value="${category.Multiplier}" required></td>
+                </tr>
+            `;
+            document.querySelector('#categories-table').innerHTML += row;
         }
     });
 

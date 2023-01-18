@@ -1,4 +1,4 @@
-UPDATE 
+UPDATE
     Ingredients 
 SET 
     Name = :name, 

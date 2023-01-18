@@ -17,7 +17,7 @@ FROM
     LEFT JOIN RecipeIngredients ON Recipes.RecipeID = RecipeIngredients.RecipeID
     LEFT JOIN Ingredients ON RecipeIngredients.IngredientID = Ingredients.IngredientID
 WHERE
-    IsTemplate = 0
+    IsTemplate = :placeholder
 GROUP BY
     Recipes.Name,
     Recipes.RecipeID

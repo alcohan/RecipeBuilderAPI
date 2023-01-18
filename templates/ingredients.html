@@ -1,25 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ingredients List</title>
+    <title>Salad Builder</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<h1>All Recipes</h1>
+<a href="/test">Back to all recipes</a>
+<h1>All Ingredients</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Recipe</th>
-            <th>Ingredients</th>
-            <th>Cost</th>
-            <th>Calories</th>
-        </tr>
-    </thead>
-    <tbody id="recipes-table">
-    </tbody>
-</table>
-<br>
 <table>
     <thead>
         <tr>
@@ -31,25 +19,8 @@
     <tbody id="ingredients-table">
     </tbody>
 </table>
+
 <script>
-    // Fetch data from the server
-    fetch('/recipes')
-    .then(response => response.json())
-    .then(data => {
-        // Iterate over the data and append rows to the table
-        for (let i = 0; i < data.length; i++) {
-            const recipe = data[i];
-            const row = `
-                <tr>
-                    <td><a href="/test/recipes/${recipe.RecipeID}">${recipe.Name}</a></td>
-                    <td>${recipe.IngredientQty}</td>
-                    <td>$ ${recipe.Price.toFixed(2)}</td>
-                    <td>${recipe.Calories.toFixed(0)} cal</td>
-                </tr>
-            `;
-            document.querySelector('#recipes-table').innerHTML += row;
-        }
-    });
 
     // Fetch data from the server
     fetch('/ingredients')
