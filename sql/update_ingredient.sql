@@ -3,10 +3,20 @@ UPDATE
 SET 
     Name = :name, 
     Unit = :unit,
+    PortionVolume = :portionvol,
+    CasePrice = :caseprice,
+    CaseSize = :casesize,
+    PortionSize = :portionsize,
+    PortionUtensil = :utensil,
+    YieldPercent = :yield,
     Calories = :calories,
-    Fat = :fat,
-    Protein = :protein,
-    Carbohydrates = :carbs,
-    CurrentPrice = :price
+    TTLFatGrams = :ttlfat,
+    SatFatGrams = :satfat,
+    CholesterolMiligrams = :choles,
+    SodiumMiligrams = :sodium,
+    CarbohydratesGrams = :carbs,
+    FiberGrams = :fiber,
+    SugarGrams = :sugar,
+    ProteinGrams = :protein
 WHERE 
     IngredientID = :id

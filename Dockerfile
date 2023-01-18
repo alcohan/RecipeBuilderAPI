@@ -6,7 +6,7 @@ ENV FLASK_DEBUG=1
 
 # Environment variables for server
 ENV SERVER 192.168.7.122:1433
-ENV DATABASE TestDB
+ENV DATABASE SaladBuilder
 
 # Install ODBC Driver and pyodbc
 RUN pip install pyodbc

@@ -12,4 +12,4 @@ services:
       - FLASK_APP=app.py
       - FLASK_ENV=development
       - SERVER 192.168.7.122:1433
-      - DATABASE TestDB
+      - DATABASE SaladBuilder

@@ -14,5 +14,5 @@ def recipe_page(recipe_id):
 
 @demo.route('/test/ingredients/<ingredient_id>',methods=["GET"])
 def updatePage(ingredient_id):
-    result = execute_query_with_params('select_ingredient', (ingredient_id))[0]
-    return render_template('sample_update.html', value=result[0])
+    result = execute_query_with_params('select_ingredient', (ingredient_id))[0][0]
+    return render_template('sample_update.html', value=result, portioncost=round(result.PortionCost*100,2))

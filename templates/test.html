@@ -11,9 +11,8 @@
     <thead>
         <tr>
             <th>Recipe</th>
-            <th>Servings</th>
-            <th>Prep</th>
-            <th>Count</th>
+            <th>Ingredients</th>
+            <th>Cost</th>
             <th>Calories</th>
         </tr>
     </thead>
@@ -43,10 +42,9 @@
             const row = `
                 <tr>
                     <td><a href="/test/recipes/${recipe.RecipeID}">${recipe.Name}</a></td>
-                    <td>${recipe.Servings}</td>
-                    <td>${recipe.PreparationTime}</td>
                     <td>${recipe.IngredientQty}</td>
-                    <td>${recipe.TotalCalories}</td>
+                    <td>$ ${recipe.TotalPrice.toFixed(2)}</td>
+                    <td>${recipe.TotalCalories.toFixed(0)} cal</td>
                 </tr>
             `;
             document.querySelector('#recipes-table').innerHTML += row;
@@ -64,7 +62,7 @@
                 <tr>
                     <td><a href="/test/ingredients/${ingredient.IngredientID}">${ingredient.Name}</a></td>
                     <td>${ingredient.Unit}</td>
-                    <td>${ingredient.CurrentPrice}</td>
+                    <td>$ ${ingredient.PortionCost.toFixed(2)}</td>
                 </tr>
             `;
             document.querySelector('#ingredients-table').innerHTML += row;
