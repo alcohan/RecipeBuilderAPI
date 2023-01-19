@@ -36,7 +36,7 @@ FROM
 		LEFT JOIN Ingredients ON RecipeIngredients.IngredientID = Ingredients.IngredientID
 		LEFT JOIN Categories ON Ingredients.CategoryID = Categories.CategoryID
 	WHERE 
-		Recipes.RecipeID = :placeholder
+		Recipes.RecipeID = 1
 	GROUP BY
 		Recipes.Name
 		,Recipes.RecipeID

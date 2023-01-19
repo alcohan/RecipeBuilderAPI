@@ -25,27 +25,27 @@ def get_recipes():
 def get_all_template_by_recipe(recipe_id):
     return to_json(execute_query_with_placeholder("select_all_template_nutrition", (recipe_id)))
 
-# @routes.route('/recipes/templates/<template_id>/categorymods', methods=['GET'])
-# def get_categorymods(template_id):
-#     return to_json(execute_query_with_placeholder("select_category_weights",(template_id)))
+@routes.route('/recipes/templates/<template_id>/categorymods', methods=['GET'])
+def get_categorymods(template_id):
+    return to_json(execute_query_with_placeholder("select_category_weights",(template_id)))
 
-# @routes.route('/recipes/templates/<template_id>/categorymods', methods=['PUT'])
-# def update_categorymods(template_id):
-#     data = request.get_json()
-#     conn = engine.connect()
-#     with open (f'sql/delete_category_weights.sql','r') as file:
-#         deletetemplate = text(file.read())
-#     with open (f'sql/upsert_category_weights.sql','r') as file:
-#         upserttemplate = text(file.read())
-#     with conn.begin():
-#         for cat in data:
-#             cat['categoryid'] = cat['id']
-#             cat['recipeid'] = template_id
-#             if cat['multiplier'] == 1:
-#                 conn.execute(deletetemplate, cat)
-#             else:
-#                 conn.execute(upserttemplate,cat)
-#     return jsonify({"message": "Data updated successfully!"}),200
+@routes.route('/recipes/templates/<template_id>/categorymods', methods=['PUT'])
+def update_categorymods(template_id):
+    data = request.get_json()
+    conn = engine.connect()
+    with open (f'sql/delete_category_weights.sql','r') as file:
+        deletetemplate = text(file.read())
+    with open (f'sql/upsert_category_weights.sql','r') as file:
+        upserttemplate = text(file.read())
+    with conn.begin():
+        for cat in data:
+            cat['categoryid'] = cat['id']
+            cat['recipeid'] = template_id
+            if float(cat['multiplier']) == 1:
+                conn.execute(deletetemplate, cat)
+            else:
+                conn.execute(upserttemplate,cat)
+    return jsonify({"message": "Data updated successfully!"}),200
 
 @routes.route('/recipeingredients',methods=['GET'])
 def get_recipe_ingredients():

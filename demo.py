@@ -16,13 +16,18 @@ def template_page(template_id):
     result=execute_query_with_placeholder('select_one_recipe', (template_id) )[0][0]
     dicts = {}
     for key in result.keys():
-        if type(result[key]) == float:
-            if key=='Price':
-                dicts[key] = round(result[key],2)
-            else:
-                dicts[key] = round(result[key],1)
+        # quantity gets passed as a string for some reason
+            
+        if key=='IngredientQty':
+            dicts[key] = round(float(result[key]),0)
         else:
-            dicts[key] = result[key]
+            if type(result[key]) == float:
+                if key=='Price':
+                    dicts[key] = round(result[key],2)
+                else:
+                    dicts[key] = round(result[key],1)
+            else:
+                dicts[key] = result[key]
 
     return render_template('edit_template.html',params=dicts)
 
@@ -32,13 +37,16 @@ def recipe_page(recipe_id):
     print(result)
     dicts = {}
     for key in result.keys():
-        if type(result[key]) == float:
-            if key=='Price':
-                dicts[key] = round(result[key],2)
-            else:
-                dicts[key] = round(result[key],1)
+        if key=='IngredientQty':
+            dicts[key] = round(float(result[key]),0)
         else:
-            dicts[key] = result[key]
+            if type(result[key]) == float:
+                if key=='Price':
+                    dicts[key] = round(result[key],2)
+                else:
+                    dicts[key] = round(result[key],1)
+            else:
+                dicts[key] = result[key]
 
     return render_template('recipe.html',params=dicts)
 

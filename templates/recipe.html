@@ -157,16 +157,16 @@
                 <tr>
                     <td>${template.Template}</td>
                     <td>${Number(template.IngredientQty)}</td>
-                    <td>${template.Price.toFixed(2)}</td>
-                    <td>${template.TTLFat.toFixed(1)}</td>
-                    <td>${template.Calories.toFixed(1)}</td>
-                    <td>${template.SatFat.toFixed(1)}</td>
-                    <td>${template.Cholesterol.toFixed(1)}</td>
-                    <td>${template.Sodium.toFixed(1)}</td>
-                    <td>${template.Carbohydrates.toFixed(1)}</td>
-                    <td>${template.Fiber.toFixed(1)}</td>
-                    <td>${template.Sugar.toFixed(1)}</td>
-                    <td>${template.Protein.toFixed(1)}</td>
+                    <td>$ ${template.Price.toFixed(2)}</td>
+                    <td>${template.Calories.toFixed(1)} cal</td>
+                    <td>${template.TTLFat.toFixed(1)} g</td>
+                    <td>${template.SatFat.toFixed(1)} g</td>
+                    <td>${template.Cholesterol.toFixed(1)} mg</td>
+                    <td>${template.Sodium.toFixed(1)} mg</td>
+                    <td>${template.Carbohydrates.toFixed(1)} g</td>
+                    <td>${template.Fiber.toFixed(1)} g</td>
+                    <td>${template.Sugar.toFixed(1)} g</td>
+                    <td>${template.Protein.toFixed(1)} g</td>
                 </tr>
             `;
             document.querySelector('#recipe-info-table').innerHTML += row;
