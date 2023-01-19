@@ -11,6 +11,7 @@
 <table>
     <thead>
         <tr>
+            <th>Format</th>
             <th>Ingredients</th>
             <th>Cost</th>
             <th>Calories</th>
@@ -26,6 +27,7 @@
     </thead>
     <tbody id="recipe-info-table">
         <tr>
+            <td>Base</td>
             <td>{{params.IngredientQty}}</td>
             <td>$ {{params.Price}}</td>
             <td>{{params.Calories}} cal</td>
@@ -71,7 +73,7 @@
 </table>
 
 <script>
-
+    // Handler for Update Ingredient Quantities button
     function submitForm() {
         var updatesArray = [];
         $(".ingredient").each(function() {
@@ -95,6 +97,7 @@
         });
     }
 
+    // Handler for Add button
     function addIngredientToRecipe(recipeID, ingredientID) {
         console.log("Adding to recipeID " + recipeID +  " | ingredientID: " + ingredientID)
         var createRecipeIngredientData = {
@@ -112,6 +115,8 @@
             }
         });
     }
+
+    // Handler for delete button
     function deleteThisIngredient(recipeIngredientId) {
         console.log("Deleting RecipeIngredient with ID=" + recipeIngredientId);
         $.ajax({
@@ -123,7 +128,8 @@
             }
         })
     }
-    // Fetch data from the server
+
+    // Fetch Ingredients data for this recipe from the server
     fetch('/recipes/{{params.RecipeID}}/ingredients')
     .then(response => response.json())
     .then(data => {
@@ -139,6 +145,56 @@
             document.querySelector('#ingredients-table').innerHTML += row;
         }
     });
+
+    // Fetch Format Template versions of Nutritional data
+    fetch('/recipes/{{params.RecipeID}}/templates')
+    .then(response => response.json())
+    .then( data => {
+        console.log("template data: ",data);
+        for (i=0;i<data.length;i++) {
+            template = data[i]
+            const row = `
+                <tr>
+                    <td>${template.Template}</td>
+                    <td>${Number(template.IngredientQty)}</td>
+                    <td>${template.Price.toFixed(2)}</td>
+                    <td>${template.TTLFat.toFixed(1)}</td>
+                    <td>${template.Calories.toFixed(1)}</td>
+                    <td>${template.SatFat.toFixed(1)}</td>
+                    <td>${template.Cholesterol.toFixed(1)}</td>
+                    <td>${template.Sodium.toFixed(1)}</td>
+                    <td>${template.Carbohydrates.toFixed(1)}</td>
+                    <td>${template.Fiber.toFixed(1)}</td>
+                    <td>${template.Sugar.toFixed(1)}</td>
+                    <td>${template.Protein.toFixed(1)}</td>
+                </tr>
+            `;
+            document.querySelector('#recipe-info-table').innerHTML += row;
+        };
+    });
+    // fetch('/recipes/{{params.RecipeID}}')
+    // .then(response => response.json())
+    // .then(recipedata => {
+    //     fetch('/recipes/templates')
+    //     .then(response => response.json())
+    //     .then(templatedata => {
+    //         console.log(recipedata, templatedata);
+    //         for (i=0;i<templatedata.length;i++) {
+    //             template = templatedata[i]
+    //             fetch(`/recipes/templates/${template.RecipeID}/categorymods`)
+    //             .then(response => response.json())
+    //             .then(categorydata => {
+    //                 console.log(categorydata)
+    //                 const row = `
+    //                     <tr>
+    //                         <td>${template.Name}</td>
+    //                     </tr>
+    //                 `;
+    //                 document.querySelector('#recipe-info-table').innerHTML += row;
+    //             })
+    //         }
+    //     });
+    // })
 
     // Fetch all possible ingredients. Render a button to add an entry to RecipeIngredients
     // table for the according ingredient

@@ -29,6 +29,7 @@ def template_page(template_id):
 @demo.route('/test/recipes/<recipe_id>')
 def recipe_page(recipe_id):
     result=execute_query_with_placeholder('select_one_recipe', (recipe_id) )[0][0]
+    print(result)
     dicts = {}
     for key in result.keys():
         if type(result[key]) == float:
