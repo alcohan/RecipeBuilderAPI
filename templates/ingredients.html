@@ -8,6 +8,8 @@
 <a href="/test">Back to all recipes</a>
 <h1>All Ingredients</h1>
 
+<button onclick="handleNewIngredient()">+Add New</button>
+
 <table>
     <thead>
         <tr>
@@ -21,7 +23,19 @@
 </table>
 
 <script>
-
+    function handleNewIngredient() {
+        console.log("Adding a new ingredient... Please update it manually")
+        $.ajax({
+            type: "POST",
+            url: "/ingredients",
+            contentType: "application/json",
+            // data: JSON.stringify(createRecipeIngredientData),
+            success: function(data) {
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
     // Fetch data from the server
     fetch('/ingredients')
     .then(response => response.json())
@@ -33,7 +47,7 @@
                 <tr>
                     <td><a href="/test/ingredients/${ingredient.IngredientID}">${ingredient.Name}</a></td>
                     <td>${ingredient.Unit}</td>
-                    <td>$ ${ingredient.PortionCost.toFixed(2)}</td>
+                    <td>$ ${ingredient.PortionCost? ingredient.PortionCost.toFixed(2):0}</td>
                 </tr>
             `;
             document.querySelector('#ingredients-table').innerHTML += row;

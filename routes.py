@@ -5,9 +5,16 @@ from dbutils import to_json, get_table, execute_query, execute_query_with_placeh
 
 routes = Blueprint('routes', __name__)
 
-@routes.route('/ingredients',methods=['GET'])
+@routes.route('/ingredients',methods=['GET', 'POST'])
 def get_ingredients():
-    return to_json(get_table("Ingredients"))
+    if request.method == 'GET':
+        return to_json(get_table("Ingredients"))
+    if request.method == 'POST':
+        conn = engine.connect()
+        with open (f'sql/create_ingredient.sql','r') as file:
+            template = text(file.read())
+        conn.execute(template, {'placeholder':"NEW"})
+        return jsonify({"message":"Created a new Ingredient"}), 200
 
 @routes.route('/pricehistory',methods=['GET'])
 def get_price_history():

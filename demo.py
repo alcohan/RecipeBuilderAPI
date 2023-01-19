@@ -64,4 +64,4 @@ def updatePage(ingredient_id):
         else:
             dicts[key] = result[key]
     
-    return render_template('sample_update.html', params=dicts)
+    return render_template('edit_ingredient.html', params=dicts)
