@@ -11,7 +11,6 @@ SELECT
 	,SUM([Template].Multiplier * (COALESCE([Target].Fiber,0) + [Template].Fiber)) as Fiber
 	,SUM([Template].Multiplier * (COALESCE([Target].Sugar,0) + [Template].Sugar)) as Sugar
 	,SUM([Template].Multiplier * (COALESCE([Target].Protein,0) + [Template].Protein)) as Protein
-	,SUM([Template].Multiplier * (COALESCE([Target].IngredientQty,0) + [Template].IngredientQty)) as IngredientQty
 FROM 
 	(
 	SELECT --Get all templates with nutrition broken down by category & multiplier as a column
@@ -34,7 +33,6 @@ FROM
 				,COALESCE([TemplateNutrition].Fiber,0) as Fiber
 				,COALESCE([TemplateNutrition].Sugar,0) as Sugar
 				,COALESCE([TemplateNutrition].Protein,0) as Protein
-				,COALESCE([TemplateNutrition].IngredientQty,0) as IngredientQty
 			FROM 
 				Recipes
 				CROSS JOIN Categories
@@ -57,7 +55,6 @@ FROM
 						,COALESCE(SUM(Ingredients.FiberGrams * RecipeIngredients.Quantity),0) as Fiber
 						,COALESCE(SUM(Ingredients.SugarGrams * RecipeIngredients.Quantity),0) as Sugar
 						,COALESCE(SUM(Ingredients.ProteinGrams * RecipeIngredients.Quantity),0) as Protein
-						,COALESCE(SUM(RecipeIngredients.Quantity),0) as IngredientQty
 					FROM 
 						Recipes
 						LEFT JOIN RecipeIngredients ON Recipes.RecipeID = RecipeIngredients.RecipeID
@@ -87,7 +84,6 @@ FROM
 				,[TemplateNutrition].Fiber
 				,[TemplateNutrition].Sugar
 				,[TemplateNutrition].Protein
-				,[TemplateNutrition].IngredientQty
 				) as a
 	LEFT JOIN TemplateCategoryModifications 
 		ON TemplateCategoryModifications.CategoryID = a.CategoryID 
@@ -113,7 +109,6 @@ LEFT JOIN
 		,COALESCE(SUM(Ingredients.FiberGrams * RecipeIngredients.Quantity),0) as Fiber
 		,COALESCE(SUM(Ingredients.SugarGrams * RecipeIngredients.Quantity),0) as Sugar
 		,COALESCE(SUM(Ingredients.ProteinGrams * RecipeIngredients.Quantity),0) as Protein
-		,COALESCE(SUM(RecipeIngredients.Quantity),0) as IngredientQty
 	FROM 
 		Recipes
 		LEFT JOIN RecipeIngredients ON Recipes.RecipeID = RecipeIngredients.RecipeID

@@ -3,6 +3,11 @@
 <head>
     <title>Salad Builder</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .recipetable tr td {padding: 6px}
+        .recipetable tr:nth-of-type(even) {background: lightgray}
+        table {border-collapse: collapse}
+    </style>
 </head>
 <body>
 <a href="/test">Back to all recipes</a>
@@ -12,7 +17,6 @@
     <thead>
         <tr>
             <th>Format</th>
-            <th>Ingredients</th>
             <th>Cost</th>
             <th>Calories</th>
             <th>TTL Fat</th>
@@ -25,10 +29,9 @@
             <th>Protein</th>
         </tr>
     </thead>
-    <tbody id="recipe-info-table">
+    <tbody id="recipe-info-table" class="recipetable">
         <tr>
             <td>Base</td>
-            <td>{{params.IngredientQty}}</td>
             <td>$ {{params.Price}}</td>
             <td>{{params.Calories}} cal</td>
             <td>{{params.TTLFat}} g</td>
@@ -43,12 +46,13 @@
     </tbody>
 </table>
 <br>
-<h2>Recipe Ingredients</h2>
+<h2>Recipe Ingredients ({{params.IngredientQty}})</h2>
 <form id="ingredientsform">
     <table>
         <thead>
             <tr>
                 <th>Ingredient</th>
+                <th>Category</th>
                 <th>Quantity</th>
                 <th></th>
             </tr>
@@ -60,7 +64,7 @@
 </form>
 
 <br>
-<h2>All Ingredients:</h2>
+<h2>Add:</h2>
 <table>
     <tbody id="available-ingredients">
     </tbody>
@@ -132,6 +136,7 @@
             const row = `
                 <tr>
                     <td>${ingredient.Name}</td>
+                    <td>${ingredient.Category}</td>
                     <td><input type="text" class="ingredient" id="${ingredient.RecipeIngredientID}" name="qty" value="${ingredient.Quantity}" required></td>
                     <td><button onclick="deleteThisIngredient(${ingredient.RecipeIngredientID})">x</button></td>
                 </tr>
@@ -149,7 +154,6 @@
             const row = `
                 <tr>
                     <td>${template.Template}</td>
-                    <td>${Number(template.IngredientQty)}</td>
                     <td>$ ${template.Price.toFixed(2)}</td>
                     <td>${template.Calories.toFixed(1)} cal</td>
                     <td>${template.TTLFat.toFixed(1)} g</td>
