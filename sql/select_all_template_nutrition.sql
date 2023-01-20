@@ -1,17 +1,17 @@
 SELECT 
-	[Template].Template as Template,
-	[Template].TemplateID, -- just used for sorting in the order they were created
-	SUM([Template].Multiplier * ([Target].Price + [Template].Price)) as Price,
-	SUM([Template].Multiplier * ([Target].Calories + [Template].Calories)) as Calories,
-	SUM([Template].Multiplier * ([Target].TTLFat + [Template].TTLFat)) as TTLFat,
-	SUM([Template].Multiplier * ([Target].SatFat + [Template].SatFat)) as SatFat,
-	SUM([Template].Multiplier * ([Target].Cholesterol + [Template].Cholesterol)) as Cholesterol,
-	SUM([Template].Multiplier * ([Target].Sodium + [Template].Sodium)) as Sodium,
-	SUM([Template].Multiplier * ([Target].Carbohydrates + [Template].Carbohydrates)) as Carbohydrates,
-	SUM([Template].Multiplier * ([Target].Fiber + [Template].Fiber)) as Fiber,
-	SUM([Template].Multiplier * ([Target].Sugar + [Template].Sugar)) as Sugar,
-	SUM([Template].Multiplier * ([Target].Protein + [Template].Protein)) as Protein,
-	SUM([Template].Multiplier * ([Target].IngredientQty + [Template].IngredientQty)) as IngredientQty
+	[Template].Template as Template
+	,[Template].TemplateID -- just used for sorting in the order they were created	
+	,SUM([Template].Multiplier * ([Target].Price + [Template].Price)) as Price
+	,SUM([Template].Multiplier * ([Target].Calories + [Template].Calories)) as Calories
+	,SUM([Template].Multiplier * ([Target].TTLFat + [Template].TTLFat)) as TTLFat
+	,SUM([Template].Multiplier * ([Target].SatFat + [Template].SatFat)) as SatFat
+	,SUM([Template].Multiplier * ([Target].Cholesterol + [Template].Cholesterol)) as Cholesterol
+	,SUM([Template].Multiplier * ([Target].Sodium + [Template].Sodium)) as Sodium
+	,SUM([Template].Multiplier * ([Target].Carbohydrates + [Template].Carbohydrates)) as Carbohydrates
+	,SUM([Template].Multiplier * ([Target].Fiber + [Template].Fiber)) as Fiber
+	,SUM([Template].Multiplier * ([Target].Sugar + [Template].Sugar)) as Sugar
+	,SUM([Template].Multiplier * ([Target].Protein + [Template].Protein)) as Protein
+	,SUM([Template].Multiplier * ([Target].IngredientQty + [Template].IngredientQty)) as IngredientQty
 FROM 
 (
 	SELECT 
@@ -46,7 +46,7 @@ FROM
 	
 INNER JOIN 
 	(
-		SELECT --Get all templates with nutrition broken down by category & multiplier as a column
+	SELECT --Get all templates with nutrition broken down by category & multiplier as a column
 		a.* 
 		,COALESCE(TemplateCategoryModifications.QuantityMultiplier,1) as Multiplier
 	from 
@@ -128,5 +128,5 @@ INNER JOIN
 	) as [Template]
 on [Template].CategoryID = [Target].CategoryID
 GROUP BY
-	[Template].Template,
-	[Template].TemplateID
+	[Template].Template
+	,[Template].TemplateID

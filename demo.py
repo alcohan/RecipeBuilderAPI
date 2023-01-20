@@ -58,10 +58,13 @@ def showIngredients():
 def updatePage(ingredient_id):
     result = execute_query_with_placeholder('select_ingredient', (ingredient_id))[0][0]
     dicts = {}
-    for key in result.keys():
-        if key=='PortionCost':
-            dicts[key] = round(result[key]*100,2)
-        else:
-            dicts[key] = result[key]
-    
-    return render_template('edit_ingredient.html', params=dicts)
+    try:
+        for key in result.keys():
+            if key=='PortionCost':
+                dicts[key] = round(result[key]*100,2)
+            else:
+                dicts[key] = result[key]
+        return render_template('edit_ingredient.html', params=dicts)
+    except:
+        print("An Error occurred. This is really bad error handling, fix me please")
+        return render_template('edit_ingredient.html',params=result)    
