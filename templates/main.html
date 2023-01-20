@@ -22,10 +22,36 @@
     <tbody id="recipes-table">
     </tbody>
 </table>
+<div id="newrecipeform"></div>
+<br>
+<button onClick="handleNewRecipe()">+ Add New Recipe</button>
 <br>
 
 <script>
-    // Fetch data from the server
+    function handleSubmit() {
+        const userinput = $("#newrecipename").val()
+        $.ajax({
+            type: "POST",
+            url: "/recipes",
+            contentType: "application/json",
+            data: JSON.stringify({name: userinput}),
+            success: function(data) {
+                console.log(data);
+                location.reload();
+            }
+        });
+    }
+    function handleNewRecipe() {
+        const newRecipeForm = `
+        <form id="newrecipe">
+            <label for="name">Name: </label>
+            <input id="newrecipename">
+            <input type="button" value="Save" onclick="handleSubmit()">
+        </form>
+        `
+        document.querySelector("#newrecipeform").innerHTML += newRecipeForm;
+    }
+    // Fetch recipes from the server
     fetch('/recipes')
     .then(response => response.json())
     .then(data => {

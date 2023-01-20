@@ -20,9 +20,17 @@ def get_ingredients():
 def get_price_history():
     return to_json(get_table("PriceHistory"))
 
-@routes.route('/recipes',methods=['GET'])
-def get_templates():
-    return to_json(execute_query_with_placeholder("select_all_recipes", (0)))
+@routes.route('/recipes',methods=['GET', 'POST'])
+def recipes():
+    if request.method == 'GET':
+        return to_json(execute_query_with_placeholder("select_all_recipes", (0)))
+    if request.method == 'POST':
+        data = request.get_json()
+
+        with open (f'sql/create_recipe.sql','r') as file:
+            template = text(file.read())
+        engine.connect().execute(template, data)
+        return jsonify({'message':"Created a new Recipe!"})
 
 @routes.route('/recipes/templates',methods=['GET'])
 def get_recipes():
