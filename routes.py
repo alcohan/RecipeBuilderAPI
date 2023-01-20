@@ -8,10 +8,10 @@ routes = Blueprint('routes', __name__)
 @routes.route('/ingredients',methods=['GET', 'POST'])
 def get_ingredients():
     if request.method == 'GET':
-        return to_json(execute_query("select_all_ingredients"))
+        return to_json(execute_query("ingredient/select_all_ingredients"))
     if request.method == 'POST':
         conn = engine.connect()
-        with open (f'sql/create_ingredient.sql','r') as file:
+        with open (f'sql/ingredient/create_ingredient.sql','r') as file:
             template = text(file.read())
         conn.execute(template, {'placeholder':"NEW"})
         return jsonify({"message":"Created a new Ingredient"}), 200
@@ -23,34 +23,34 @@ def get_price_history():
 @routes.route('/recipes',methods=['GET', 'POST'])
 def recipes():
     if request.method == 'GET':
-        return to_json(execute_query_with_placeholder("select_all_recipes", (0)))
+        return to_json(execute_query_with_placeholder("recipe/select_all_recipes", (0)))
     if request.method == 'POST':
         data = request.get_json()
 
-        with open (f'sql/create_recipe.sql','r') as file:
+        with open (f'sql/recipe/create_recipe.sql','r') as file:
             template = text(file.read())
         engine.connect().execute(template, data)
         return jsonify({'message':"Created a new Recipe!"})
 
 @routes.route('/recipes/templates',methods=['GET'])
 def get_recipes():
-    return to_json(execute_query_with_placeholder("select_all_recipes", (1)))
+    return to_json(execute_query_with_placeholder("recipe/select_all_recipes", (1)))
 
 @routes.route('/recipes/<recipe_id>/templates')
 def get_all_template_by_recipe(recipe_id):
-    return to_json(execute_query_with_placeholder("select_all_template_nutrition", (recipe_id)))
+    return to_json(execute_query_with_placeholder("recipe/select_all_template_nutrition", (recipe_id)))
 
 @routes.route('/recipes/templates/<template_id>/categorymods', methods=['GET'])
 def get_categorymods(template_id):
-    return to_json(execute_query_with_placeholder("select_category_weights",(template_id)))
+    return to_json(execute_query_with_placeholder("template/select_category_weights",(template_id)))
 
 @routes.route('/recipes/templates/<template_id>/categorymods', methods=['PUT'])
 def update_categorymods(template_id):
     data = request.get_json()
     conn = engine.connect()
-    with open (f'sql/delete_category_weights.sql','r') as file:
+    with open (f'sql/template/delete_category_weights.sql','r') as file:
         deletetemplate = text(file.read())
-    with open (f'sql/upsert_category_weights.sql','r') as file:
+    with open (f'sql/template/upsert_category_weights.sql','r') as file:
         upserttemplate = text(file.read())
     with conn.begin():
         for cat in data:
@@ -68,18 +68,18 @@ def get_recipe_ingredients():
 
 @routes.route('/recipes/<recipe_id>', methods=['GET'])
 def get_recipe_info(recipe_id):
-    return to_json(execute_query_with_placeholder('select_one_recipe', (recipe_id) ))
+    return to_json(execute_query_with_placeholder('recipe/select_one_recipe', (recipe_id) ))
 
 @routes.route('/recipes/<recipe_id>/ingredients', methods=['GET', 'POST'])
 def get_recipe_quantities(recipe_id):
     if request.method =='GET':
-        return to_json(execute_query_with_placeholder('select_recipe_quantities', (recipe_id) ))
+        return to_json(execute_query_with_placeholder('recipe/select_recipe_quantities', (recipe_id) ))
     if request.method == "POST":
         # Create a new RecipeIngredient for this recipe_id
         data = request.get_json()
         data['recipeid'] = recipe_id
         conn = engine.connect()
-        with open(f'sql/create_recipe_ingredient.sql','r') as file:
+        with open(f'sql/recipe/create_recipe_ingredient.sql','r') as file:
             sql = file.read()
         template = text(sql)
         conn.execute(template,data)
@@ -88,7 +88,7 @@ def get_recipe_quantities(recipe_id):
 @routes.route('/recipes/<recipe_id>/ingredients/<ingredient_id>/<recipe_ingredient_id>', methods=['DELETE'])
 def delete_recipe_ingredient(recipe_id, ingredient_id, recipe_ingredient_id):
     conn = engine.connect()
-    with open (f'sql/delete_recipe_ingredient.sql','r') as file:
+    with open (f'sql/recipe/delete_recipe_ingredient.sql','r') as file:
         template = text(file.read())
     conn.execute(template, {'id':recipe_ingredient_id})
 
@@ -101,7 +101,7 @@ def update_ingredient(ingredient_id):
 
     conn=engine.connect()
 
-    with open(f'sql/update_ingredient.sql', 'r') as file:
+    with open(f'sql/ingredient/update_ingredient.sql', 'r') as file:
         sql = file.read()
     template = text(sql)
     conn.execute(template, data)
@@ -113,7 +113,7 @@ def update_ingredient(ingredient_id):
 def update_recipe_ingredient(recipe_id):
     updateList = request.get_json()
     conn = engine.connect()
-    with open(f'sql/update_recipe_ingredient.sql','r') as file:
+    with open(f'sql/ingredient/update_recipe_ingredient.sql','r') as file:
         sql = file.read()
     template = text(sql)
     with conn.begin():

@@ -12,10 +12,9 @@
 <table>
     <thead>
         <tr>
-            <th>Recipe</th>
-            <th>Ingredients</th>
+            <th>Template</th>
+            <th>Items</th>
             <th>Cost</th>
-            <th>Calories</th>
         </tr>
     </thead>
     <tbody id="templates-table">
@@ -36,7 +35,6 @@
                     <td><a href="/test/templates/${template.RecipeID}">${template.Name}</a></td>
                     <td>${template.IngredientQty}</td>
                     <td>$ ${template.Price.toFixed(2)}</td>
-                    <td>${template.Calories.toFixed(0)} cal</td>
                 </tr>
             `;
             document.querySelector('#templates-table').innerHTML += row;

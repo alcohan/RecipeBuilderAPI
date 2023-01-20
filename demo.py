@@ -5,7 +5,7 @@ demo = Blueprint('demo',__name__)
 
 @demo.route('/test',methods=["GET"])
 def hello():
-    return render_template('main.html')
+    return render_template('view_recipes.html')
 
 @demo.route('/test/templates')
 def templates_page():
@@ -13,7 +13,7 @@ def templates_page():
 
 @demo.route('/test/templates/<template_id>')
 def template_page(template_id):
-    result=execute_query_with_placeholder('select_one_recipe', (template_id) )[0][0]
+    result=execute_query_with_placeholder('recipe/select_one_recipe', (template_id) )[0][0]
     dicts = {}
     for key in result.keys():
         # quantity gets passed as a string for some reason
@@ -33,7 +33,7 @@ def template_page(template_id):
 
 @demo.route('/test/recipes/<recipe_id>')
 def recipe_page(recipe_id):
-    result=execute_query_with_placeholder('select_one_recipe', (recipe_id) )[0][0]
+    result=execute_query_with_placeholder('recipe/select_one_recipe', (recipe_id) )[0][0]
     print(result)
     dicts = {}
     for key in result.keys():
@@ -48,15 +48,15 @@ def recipe_page(recipe_id):
             else:
                 dicts[key] = result[key]
 
-    return render_template('recipe.html',params=dicts)
+    return render_template('edit_recipe.html',params=dicts)
 
 @demo.route('/test/ingredients')
 def showIngredients():
-    return render_template('ingredients.html')
+    return render_template('view_ingredients.html')
 
 @demo.route('/test/ingredients/<ingredient_id>',methods=["GET"])
 def updatePage(ingredient_id):
-    result = execute_query_with_placeholder('select_ingredient', (ingredient_id))[0][0]
+    result = execute_query_with_placeholder('ingredient/select_ingredient', (ingredient_id))[0][0]
     dicts = {}
     try:
         for key in result.keys():
