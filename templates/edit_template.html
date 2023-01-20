@@ -197,17 +197,21 @@
     fetch('/ingredients')
     .then(response => response.json())
     .then(data => {
-        for (i=0;i<data.length;i++) {
-            ingredient = data[i]
-            const row = `
-                <tr>
-                    <td><button onclick="addIngredientToRecipe('{{params.RecipeID}}','${ingredient.IngredientID}')">+</button></td>
-                    <td>${ingredient.Name}</td>
-                </tr>
-            `;
-            document.querySelector('#available-ingredients').innerHTML += row;
-        }
-
+        const categories = [...new Set(data.map(item => item.Category))];
+        categories.forEach( category => {
+            document.querySelector('#available-ingredients').innerHTML += `<tr><th></th><th><br>${category}</th></tr>`;
+            data.forEach( ingredient => {
+                if(ingredient.Category === category) {
+                    const row = `
+                        <tr>
+                            <td><button onclick="addIngredientToRecipe('{{params.RecipeID}}','${ingredient.IngredientID}')">+</button></td>
+                            <td>${ingredient.Name}</td>
+                        </tr>
+                    `;
+                    document.querySelector('#available-ingredients').innerHTML += row;
+                }
+            })
+        })
     });
 </script>
 </body>

@@ -62,12 +62,6 @@
 <br>
 <h2>All Ingredients:</h2>
 <table>
-    <thead>
-        <tr>
-            <th></th>
-            <th>Ingredient</th>
-        </tr>
-    </thead>
     <tbody id="available-ingredients">
     </tbody>
 </table>
@@ -150,7 +144,6 @@
     fetch('/recipes/{{params.RecipeID}}/templates')
     .then(response => response.json())
     .then( data => {
-        console.log("template data: ",data);
         for (i=0;i<data.length;i++) {
             template = data[i]
             const row = `
@@ -172,46 +165,28 @@
             document.querySelector('#recipe-info-table').innerHTML += row;
         };
     });
-    // fetch('/recipes/{{params.RecipeID}}')
-    // .then(response => response.json())
-    // .then(recipedata => {
-    //     fetch('/recipes/templates')
-    //     .then(response => response.json())
-    //     .then(templatedata => {
-    //         console.log(recipedata, templatedata);
-    //         for (i=0;i<templatedata.length;i++) {
-    //             template = templatedata[i]
-    //             fetch(`/recipes/templates/${template.RecipeID}/categorymods`)
-    //             .then(response => response.json())
-    //             .then(categorydata => {
-    //                 console.log(categorydata)
-    //                 const row = `
-    //                     <tr>
-    //                         <td>${template.Name}</td>
-    //                     </tr>
-    //                 `;
-    //                 document.querySelector('#recipe-info-table').innerHTML += row;
-    //             })
-    //         }
-    //     });
-    // })
 
     // Fetch all possible ingredients. Render a button to add an entry to RecipeIngredients
     // table for the according ingredient
     fetch('/ingredients')
     .then(response => response.json())
     .then(data => {
-        for (i=0;i<data.length;i++) {
-            ingredient = data[i]
-            const row = `
-                <tr>
-                    <td><button onclick="addIngredientToRecipe('{{params.RecipeID}}','${ingredient.IngredientID}')">+</button></td>
-                    <td>${ingredient.Name}</td>
-                </tr>
-            `;
-            document.querySelector('#available-ingredients').innerHTML += row;
-        }
-
+        const categories = [...new Set(data.map(item => item.Category))];
+        categories.forEach( category => {
+            if(category === "General") return;
+            document.querySelector('#available-ingredients').innerHTML += `<tr><th></th><th><br>${category}</th></tr>`;
+            data.forEach( ingredient => {
+                if(ingredient.Category === category) {
+                    const row = `
+                        <tr>
+                            <td><button onclick="addIngredientToRecipe('{{params.RecipeID}}','${ingredient.IngredientID}')">+</button></td>
+                            <td>${ingredient.Name}</td>
+                        </tr>
+                    `;
+                    document.querySelector('#available-ingredients').innerHTML += row;
+                }
+            })
+        })
     });
 </script>
 </body>
