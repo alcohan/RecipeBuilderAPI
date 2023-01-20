@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>Ingredient</th>
-            <th>Unit</th>
+            <th>Category</th>
             <th>Price</th>
         </tr>
     </thead>
@@ -39,6 +39,7 @@
     // Fetch data from the server
     fetch('/ingredients')
     .then(response => response.json())
+    // .then(data => {data.sort( (a,b) => a.CategoryID<b.CategoryID)})
     .then(data => {
         // Iterate over the data and append rows to the table
         for (let i = 0; i < data.length; i++) {
@@ -46,7 +47,7 @@
             const row = `
                 <tr>
                     <td><a href="/test/ingredients/${ingredient.IngredientID}">${ingredient.Name}</a></td>
-                    <td>${ingredient.Unit}</td>
+                    <td>${ingredient.Category}</td>
                     <td>$ ${ingredient.PortionCost? ingredient.PortionCost.toFixed(2):0}</td>
                 </tr>
             `;

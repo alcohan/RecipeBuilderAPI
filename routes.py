@@ -8,7 +8,7 @@ routes = Blueprint('routes', __name__)
 @routes.route('/ingredients',methods=['GET', 'POST'])
 def get_ingredients():
     if request.method == 'GET':
-        return to_json(get_table("Ingredients"))
+        return to_json(execute_query("select_all_ingredients"))
     if request.method == 'POST':
         conn = engine.connect()
         with open (f'sql/create_ingredient.sql','r') as file:

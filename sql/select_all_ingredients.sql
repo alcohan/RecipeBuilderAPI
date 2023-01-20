@@ -28,7 +28,5 @@ LEFT JOIN
     Categories
 ON
     Ingredients.CategoryID = Categories.CategoryID
-WHERE 
-    IngredientID = :placeholder
 ORDER BY
     Ingredients.CategoryID
