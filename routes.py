@@ -94,6 +94,10 @@ def delete_recipe_ingredient(recipe_id, ingredient_id, recipe_ingredient_id):
 
     return jsonify({"message":"Successfully Deleted."}), 200
 
+@routes.route('/ingredients/categories', methods=['GET'])
+def categories():
+    return to_json(execute_query('ingredient/select_categories'))
+
 @routes.route('/ingredients/<ingredient_id>', methods=['PUT'])
 def update_ingredient(ingredient_id):
     data = request.get_json()
