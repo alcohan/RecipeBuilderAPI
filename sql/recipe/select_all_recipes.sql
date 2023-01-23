@@ -11,7 +11,7 @@ SELECT
     COALESCE(SUM(Ingredients.FiberGrams * RecipeIngredients.Quantity),0) as Fiber,
     COALESCE(SUM(Ingredients.SugarGrams * RecipeIngredients.Quantity),0) as Sugar,
     COALESCE(SUM(Ingredients.ProteinGrams * RecipeIngredients.Quantity),0) as Protein,
-    COALESCE(SUM(RecipeIngredients.Quantity),0) as IngredientQty
+    CONVERT(float,COALESCE(SUM(RecipeIngredients.Quantity),0)) as IngredientQty
 FROM
     Recipes
     LEFT JOIN RecipeIngredients ON Recipes.RecipeID = RecipeIngredients.RecipeID
