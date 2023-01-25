@@ -2,7 +2,7 @@ SELECT
     Ingredients.Name
 	,RecipeIngredients.RecipeIngredientID
     ,Ingredients.IngredientID
-	,RecipeIngredients.Quantity
+	,CAST(RecipeIngredients.Quantity as float) as Quantity
     ,Categories.Name as Category
 FROM 
     RecipeIngredients
