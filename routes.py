@@ -78,12 +78,13 @@ def get_recipe_quantities(recipe_id):
         # Create a new RecipeIngredient for this recipe_id
         data = request.get_json()
         data['recipeid'] = recipe_id
-        with engine.connect() as conn:
+        with engine.begin() as conn:
             with open(f'sql/recipe/create_recipe_ingredient.sql','r') as file:
                 sql = file.read()
             template = text(sql)
-            conn.execute(template,data)
-        return jsonify({"message": "Data updated successfully!"}), 200
+            result = conn.execute(template,data)
+            newid = result.scalar()
+        return jsonify({"message": "Data updated successfully!", "new_id": newid}), 200
 
 @routes.route('/recipes/<recipe_id>/ingredients/<ingredient_id>/<recipe_ingredient_id>', methods=['DELETE'])
 def delete_recipe_ingredient(recipe_id, ingredient_id, recipe_ingredient_id):
