@@ -70,7 +70,7 @@ def get_recipe_ingredients():
 def get_recipe_info(recipe_id):
     return to_json(execute_query_with_placeholder('recipe/select_one_recipe', (recipe_id) ))
 
-@routes.route('/recipes/<recipe_id>/ingredients', methods=['GET', 'POST'])
+@routes.route('/recipes/<recipe_id>/ingredients', methods=['GET', 'POST', 'PUT'])
 def get_recipe_quantities(recipe_id):
     if request.method =='GET':
         return to_json(execute_query_with_placeholder('recipe/select_recipe_quantities', (recipe_id) ))
@@ -85,6 +85,34 @@ def get_recipe_quantities(recipe_id):
             result = conn.execute(template,data)
             newid = result.scalar()
         return jsonify({"message": "Data updated successfully!", "new_id": newid}), 200
+
+    if request.method =='PUT':
+        data = request.get_json()
+
+        with open (f'sql/recipe/update_recipe_ingredient.sql', 'r') as file:
+            update_template = text(file.read())
+        with open (f'sql/recipe/create_recipe_ingredient.sql', 'r') as file:
+            create_template = text(file.read())
+        with open (f'sql/recipe/delete_recipe_ingredient.sql', 'r') as file:
+            delete_template = text(file.read())
+
+        with engine.begin() as conn:
+            for row in data:
+                if row['updateType'] == 'update':
+                    print(f"updating {row['RecipeIngredientID']} to {row['Quantity']}")
+                    conn.execute(update_template, {'id': row['RecipeIngredientID'], 'qty':row['Quantity']})
+
+                if row['updateType'] == 'delete':
+                    print(f"deleting {row['RecipeIngredientID']}")
+                    conn.execute(delete_template, {'id': row['RecipeIngredientID']})
+
+                if row['updateType'] == 'create':
+                    print(f"creating a new row {row['RecipeIngredientID']}")
+                    conn.execute(create_template, {'recipeid':recipe_id, 'ingredientid':row['IngredientID'], 'qty': row['Quantity']})
+                    
+        conn.close()
+        return jsonify({"message": "Data Updated"}), 200
+
 
 @routes.route('/recipes/<recipe_id>/ingredients/<ingredient_id>/<recipe_ingredient_id>', methods=['DELETE'])
 def delete_recipe_ingredient(recipe_id, ingredient_id, recipe_ingredient_id):
@@ -119,10 +147,9 @@ def update_recipe_ingredient(recipe_id):
     updateList = request.get_json()
     conn = engine.connect()
     with open(f'sql/ingredient/update_recipe_ingredient.sql','r') as file:
-        sql = file.read()
-    template = text(sql)
+        update_template = text(file.read())
     with conn.begin():
         for data in updateList: {
-            conn.execute(template,data)
+            conn.execute(update_template,data)
         }
     return jsonify({"message": "Data updated successfully!"}), 200

@@ -22,6 +22,7 @@ SELECT
     ,Ingredients.TTLFatGrams
     ,Ingredients.Unit
     ,Ingredients.YieldPercent
+    ,Ingredients.PortionsPerCase
 FROM 
     Ingredients
 LEFT JOIN
