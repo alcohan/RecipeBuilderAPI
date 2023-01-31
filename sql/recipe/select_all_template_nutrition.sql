@@ -1,16 +1,16 @@
 SELECT 
 	[Template].Template as Template
 	,[Template].TemplateID -- just used for sorting in the order they were created	
-	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Price,0) + [Template].Price)) as Decimal(5,2) ) as float ) as Price
-	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Calories,0) + [Template].Calories)) as Decimal(5,1) ) as float ) as Calories
-	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].TTLFat,0) + [Template].TTLFat)) as Decimal(5,1) ) as float ) as TTLFat
-	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].SatFat,0) + [Template].SatFat)) as Decimal(5,1) ) as float ) as SatFat
-	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Cholesterol,0) + [Template].Cholesterol)) as Decimal(5,1) ) as float ) as Cholesterol
-	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Sodium,0) + [Template].Sodium)) as Decimal(5,1) ) as float ) as Sodium
-	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Carbohydrates,0) + [Template].Carbohydrates)) as Decimal(5,1) ) as float ) as Carbohydrates
-	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Fiber,0) + [Template].Fiber)) as Decimal(5,1) ) as float ) as Fiber
-	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Sugar,0) + [Template].Sugar)) as Decimal(5,1) ) as float ) as Sugar
-	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Protein,0) + [Template].Protein)) as Decimal(5,1) ) as float ) as Protein
+	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Price,0) + [Template].Price)) as Decimal(10,2) ) as float ) as Price
+	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Calories,0) + [Template].Calories)) as Decimal(10,1) ) as float ) as Calories
+	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].TTLFat,0) + [Template].TTLFat)) as Decimal(10,1) ) as float ) as TTLFat
+	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].SatFat,0) + [Template].SatFat)) as Decimal(10,1) ) as float ) as SatFat
+	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Cholesterol,0) + [Template].Cholesterol)) as Decimal(10,1) ) as float ) as Cholesterol
+	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Sodium,0) + [Template].Sodium)) as Decimal(10,1) ) as float ) as Sodium
+	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Carbohydrates,0) + [Template].Carbohydrates)) as Decimal(10,1) ) as float ) as Carbohydrates
+	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Fiber,0) + [Template].Fiber)) as Decimal(10,1) ) as float ) as Fiber
+	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Sugar,0) + [Template].Sugar)) as Decimal(10,1) ) as float ) as Sugar
+	,CAST( CAST( SUM([Template].Multiplier * (COALESCE([Target].Protein,0) + [Template].Protein)) as Decimal(10,1) ) as float ) as Protein
 FROM 
 	(
 	SELECT --Get all templates with nutrition broken down by category & multiplier as a column
