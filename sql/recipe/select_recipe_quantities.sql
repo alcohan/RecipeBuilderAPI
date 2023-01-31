@@ -10,3 +10,5 @@ FROM
     LEFT JOIN Categories ON Ingredients.CategoryID = Categories.CategoryID
 WHERE 
     RecipeIngredients.RecipeID = :placeholder
+ORDER BY
+    Categories.CategoryID
